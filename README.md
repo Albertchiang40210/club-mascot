@@ -50,7 +50,7 @@ npm run build    # 打包到 game/dist/
 | `concept/` | 概念圖（正／側／背） |
 | `assets/` | 各階段 GLB：`mascot_raw`（原始）→ `mascot_clean`（整理）→ `mascot_rigged`（綁骨）→ `mascot`（遊戲用） |
 | `blender-scripts/` | Blender MCP 外掛 |
-| `tools/` | MCP server：`trellis_mcp.py`（免費圖生 3D，呼叫 Hugging Face 的 TRELLIS Space）、`gemini_image_mcp.py`（Gemini 概念圖，需 `GEMINI_API_KEY`，是否免費取決於該 key 的額度）；另有 `trellis_hf.py` 命令列版 |
+| `tools/` | MCP server：`trellis_mcp.py`（免費圖生 3D，呼叫 Hugging Face 的 TRELLIS Space）、`gemini_image_mcp.py`（Gemini 概念圖，需 `GEMINI_API_KEY`；實測免費層對圖片模型回 429 額度不足，要用得開通計費，所以本專案概念圖仍用 Gemini 網頁版手動生成）；另有 `trellis_hf.py` 命令列版 |
 | `game/` | Three.js + Vite 小遊戲 |
 | `renders/` | 各階段驗收截圖 |
 | `demo/` | Demo 影片與 GIF |

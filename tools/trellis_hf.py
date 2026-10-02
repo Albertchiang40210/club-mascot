@@ -13,7 +13,7 @@ SPACE = "trellis-community/TRELLIS"
 
 
 def generate_glb(src, dst, seed=0):
-    client = Client(SPACE, token=os.environ.get("HF_TOKEN") or None, verbose=False)
+    client = Client(SPACE, token=(os.environ.get("HF_TOKEN") or "").strip() or None, verbose=False)
     client.predict(api_name="/start_session")
     image = client.predict(handle_file(src), api_name="/preprocess_image")
     _, _, glb = client.predict(

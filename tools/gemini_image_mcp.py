@@ -23,7 +23,7 @@ def generate_image(prompt: str, output_path: str, reference_image: str = "") -> 
     """Generate an image with Gemini and save it. Optionally pass reference_image
     (a local path) to edit it or keep the same character across views. Paths may
     be absolute or relative to the project root."""
-    key = os.environ.get("GEMINI_API_KEY")
+    key = (os.environ.get("GEMINI_API_KEY") or "").strip()
     if not key:
         return "Error: GEMINI_API_KEY is not set in the environment."
     from google import genai
@@ -39,8 +39,9 @@ def generate_image(prompt: str, output_path: str, reference_image: str = "") -> 
             contents.append(types.Part.from_bytes(data=f.read(), mime_type=mime))
     contents.append(prompt)
 
+    client = genai.Client(api_key=key)  # keep a reference or it is closed mid-request
     try:
-        response = genai.Client(api_key=key).models.generate_content(
+        response = client.models.generate_content(
             model=MODEL,
             contents=contents,
             config=types.GenerateContentConfig(response_modalities=["IMAGE", "TEXT"]),
