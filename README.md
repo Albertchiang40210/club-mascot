@@ -1,19 +1,21 @@
 # 小光 · 社團吉祥物（圖 → 3D → Blender → 遊戲）
 
-**小光**是攝影社的吉祥物：一隻抱著相機、圓滾滾的貓頭鷹。
-這個專案記錄了從一張概念圖，到可在瀏覽器遊玩的 3D 小遊戲的完整流程，並用 Claude Code + Blender MCP 完成模型清理。
+小光是我們攝影社的吉祥物，一隻抱著相機的圓滾滾貓頭鷹。
+這個專案是我把它從一張圖做成可以在瀏覽器玩的 3D 小遊戲的過程。
 
 <p align="center">
   <img src="demo/demo.gif" width="90%" alt="Demo">
 </p>
 
-## 流程
+## 怎麼做出來的
 
-```text
-文字設定 → 概念圖 → 圖生3D → Blender 清理(MCP) → 綁骨+動畫 → Three.js 遊戲 → Playwright 試玩
-```
+1. 先設定好角色，畫出正面、側面、背面的概念圖。
+2. 把正面那張丟給 [TRELLIS](https://huggingface.co/spaces/trellis-community/TRELLIS)（Hugging Face 上免費的圖生 3D），得到原始模型。
+3. 用 Claude Code 透過 Blender MCP 操作 Blender 5.2 整理模型：縮到 1 公尺高、原點移到腳底、面數約 1 萬。
+4. Blender 自動算權重失敗，只好自己做 7 根骨頭、手動分配權重，再做 idle、walk、jump 等動畫。
+5. 匯出 GLB，用 Three.js 寫成遊戲，最後用 Playwright 自動試玩確認能正常跑。
 
-詳細的交接規格與驗收狀態見 [PIPELINE.md](PIPELINE.md)，過程中遇到的問題與解法見 [handoff-log.md](handoff-log.md)。
+每一步交出去的檔案規格和驗收結果寫在 [PIPELINE.md](PIPELINE.md)，中間踩到的坑和解法記在 [handoff-log.md](handoff-log.md)。
 
 ## 快速開始
 
@@ -55,14 +57,6 @@ npm run build    # 打包到 game/dist/
 | `renders/` | 各階段驗收截圖 |
 | `PIPELINE.md` | 交接物規格與驗收清單 |
 | `handoff-log.md` | 每個交接處的問題與解法 |
-
-## 模型製作
-
-1. 概念圖（正面）
-2. [TRELLIS](https://huggingface.co/spaces/trellis-community/TRELLIS)（Hugging Face，單張正面圖）生成原始 3D
-3. Blender 5.2 + Blender MCP 清理：高 1.0 m、原點在腳底中央、約 1 萬面
-4. 手動建立 7 根骨頭並分配權重，自製 idle / walk / jump 動畫
-5. 匯出 GLB，交給 Three.js
 
 ## 已知問題
 
