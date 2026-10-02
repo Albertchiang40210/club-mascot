@@ -1,4 +1,4 @@
-# PIPELINE：社團吉祥物（圖 → 3D → Blender → 遊戲）
+# PIPELINE：吉祥物（圖 → 3D → Blender → 遊戲）
 
 角色（佔位，可改）：**小光**，抱著相機的圓滾滾貓頭鷹。
 

@@ -1,29 +1,16 @@
-# 小光 · 社團吉祥物（圖 → 3D → Blender → 遊戲）
+# 小光 · 3D 吉祥物與網頁小遊戲
 
-小光是我們攝影社的吉祥物，一隻抱著相機的圓滾滾貓頭鷹。
-這個專案是我把它從一張圖做成可以在瀏覽器玩的 3D 小遊戲的過程。
+小光是一隻抱著相機的貓頭鷹吉祥物。本專案示範如何從一張概念圖開始，經過 AI 圖生 3D、Blender 整理與綁骨，最後做成可在瀏覽器遊玩的 Three.js 小遊戲。
 
 <p align="center">
   <img src="demo/demo.gif" width="90%" alt="Demo">
 </p>
 
-## 怎麼做出來的
-
-1. 先設定好角色，畫出正面、側面、背面的概念圖。
-2. 把正面那張丟給 [TRELLIS](https://huggingface.co/spaces/trellis-community/TRELLIS)（Hugging Face 上免費的圖生 3D），得到原始模型。
-3. 用 Claude Code 透過 Blender MCP 操作 Blender 5.2 整理模型：縮到 1 公尺高、原點移到腳底、面數約 1 萬。
-4. Blender 自動算權重失敗，只好自己做 7 根骨頭、手動分配權重，再做 idle、walk、jump 等動畫。
-5. 匯出 GLB，用 Three.js 寫成遊戲，最後用 Playwright 自動試玩確認能正常跑。
-
-每一步交出去的檔案規格和驗收結果寫在 [PIPELINE.md](PIPELINE.md)，中間踩到的坑和解法記在 [handoff-log.md](handoff-log.md)。
-
 ## 快速開始
 
 需要 [Node.js](https://nodejs.org/)。
 
-**Windows：** 直接雙擊 `start-game.bat`（第一次會自動安裝套件並開啟瀏覽器）。
-
-**或手動執行：**
+Windows 可直接雙擊 `start-game.bat`，第一次執行會自動安裝套件並開啟瀏覽器。也可以手動執行：
 
 ```bash
 cd game
@@ -34,7 +21,7 @@ npm run build    # 打包到 game/dist/
 
 ## 玩法
 
-60 秒內收集 15 個底片（金色底片 +3）。紅蟲會追著你，被撞到扣 1 顆心（共 3 顆），體力歸零或時間到就失敗。
+60 秒內收集 15 個底片（金色底片 +3）。紅蟲會追著玩家，被撞到扣 1 顆心（共 3 顆），體力歸零或時間到即失敗。
 
 | 操作 | 按鍵 |
 |---|---|
@@ -46,23 +33,32 @@ npm run build    # 打包到 game/dist/
 
 手機：左下搖桿、右下「跳」「拍」按鈕。
 
+## 製作流程
+
+1. 概念圖：正面、側面、背面。
+2. 圖生 3D：以正面圖輸入 [TRELLIS](https://huggingface.co/spaces/trellis-community/TRELLIS)，取得原始模型。
+3. Blender 整理（透過 Blender MCP 操作 Blender 5.2）：高 1.0 m、原點在腳底中央、約 1 萬面。
+4. 綁骨與動畫：7 根骨頭、手動分配權重，製作 idle、walk、jump 等動畫。
+5. 遊戲：匯出 GLB，以 Three.js 實作，並用 Playwright 自動試玩驗證。
+
+各步驟的交付規格與驗收狀態見 [PIPELINE.md](PIPELINE.md)，過程中遇到的問題與解法見 [handoff-log.md](handoff-log.md)。
+
 ## 專案結構
 
 | 路徑 | 內容 |
 |---|---|
 | `concept/` | 概念圖（正／側／背） |
-| `assets/` | 各階段 GLB：`mascot_raw`（原始）→ `mascot_clean`（清理）→ `mascot_rigged`（綁骨）→ `mascot`（遊戲用） |
+| `assets/` | 各階段 GLB：`mascot_raw`（原始）→ `mascot_clean`（整理）→ `mascot_rigged`（綁骨）→ `mascot`（遊戲用） |
 | `blender-scripts/` | Blender MCP 外掛 |
 | `game/` | Three.js + Vite 小遊戲 |
 | `renders/` | 各階段驗收截圖 |
-| `PIPELINE.md` | 交接物規格與驗收清單 |
-| `handoff-log.md` | 每個交接處的問題與解法 |
+| `demo/` | Demo 影片與 GIF |
 
 ## 已知問題
 
-- 背面是 AI 推測生成的，有些微凹痕與貼圖瑕疵（備份：`assets/mascot_clean_v1_backpatch.glb`）
-- 手機載入速度尚未實測
+- 模型背面由 AI 推測生成，有些微凹痕與貼圖瑕疵（備份：`assets/mascot_clean_v1_backpatch.glb`）。
+- 手機載入速度尚未實測。
 
-## 技術
+## 使用技術
 
-Three.js · Vite · Blender 5.2 · Blender MCP · Claude Code · Playwright
+Three.js、Vite、Blender 5.2、Blender MCP、Claude Code、Playwright
