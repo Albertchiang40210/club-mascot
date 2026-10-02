@@ -9,6 +9,8 @@
   <img src="renders/g2_photo.png" width="30%" alt="photo">
 </p>
 
+🎬 **[Demo 影片](demo/demo.mp4)**
+
 ## 流程
 
 ```text
