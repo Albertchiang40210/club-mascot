@@ -54,6 +54,15 @@ npm run build    # 打包到 game/dist/
 | `renders/` | 各階段驗收截圖 |
 | `demo/` | Demo 影片與 GIF |
 
+## 為什麼無法完全靠 MCP 完成
+
+- **圖生 3D 沒有可用的免費 MCP**：Blender MCP 內建的 Rodin 免費額度用完（API_INSUFFICIENT_FUNDS），Tripo 免費帳號不能匯出，重試還會計費。最後的 TRELLIS 是 Hugging Face 網頁，只能手動上傳、手動下載 GLB。
+- **自動綁骨失敗**：Blender 自動權重（Bone Heat）對非人形的貓頭鷹找不到解，Mixamo 也不適用，只好用 Blender MCP 手動建骨架與分配權重。
+- **需要人工判斷與驗收**：挑選概念圖、確認背面品質、決定要不要重畫貼圖，都需要人看過才能決定。
+- **遊戲端沒有對應的 MCP**：Three.js 遊戲是 Claude Code 直接寫程式，再以 Playwright 試玩，不是透過遊戲引擎 MCP。
+
+因此實際是「Blender 段由 Agent 透過 MCP 操作，其餘段落以 GLB 檔案手動接力」。
+
 ## 已知問題
 
 - 模型背面由 AI 推測生成，有些微凹痕與貼圖瑕疵（備份：`assets/mascot_clean_v1_backpatch.glb`）。

@@ -12,3 +12,4 @@
 | 6 | 清理 → 綁骨 | Blender（手動骨架） | Blender 自動權重失敗（Bone Heat 找不到解，所有頂點沒權重）；非人形不適合 Mixamo | 手動建 7 根骨頭（root/body/head/wing×2/foot×2），依位置用漸層分配權重，自製 idle/walk/jump | 約 3 分鐘，與第 7 筆合計（依檔案時間推估） | 1 |
 | 7 | 清理 → 綁骨 | Blender 視窗 | 物件被人為旋轉約 65 度，渲染出的角度不對 | 旋轉歸零；之後鎖定旋轉再解鎖 | 併入第 6 筆 | 2 |
 | 8 | 圖生3D → 授權檢查 | Hugging Face TRELLIS Space | 生成模型的授權不明，Space 頁面沒有標示授權 | 查原始專案 microsoft/TRELLIS 為 MIT（允許商用），部分第三方元件另有授權；已寫入 README「授權說明」，商用前需再確認 | 約 5 分鐘（估計） | 0 |
+| 9 | Blender → 遊戲 | Three.js 載入 GLB | 模型材質金屬度為 1.0（glTF 預設），在遊戲裡反射不到環境，整隻變黑 | 在 Blender 把金屬度設為 0 再匯出，最終 `mascot.glb` 的 metallicFactor 為 0 | 未記錄（無法由檔案時間推估） | 1 |
