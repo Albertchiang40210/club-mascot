@@ -4,12 +4,6 @@
 這個專案記錄了從一張概念圖，到可在瀏覽器遊玩的 3D 小遊戲的完整流程，並用 Claude Code + Blender MCP 完成模型清理。
 
 <p align="center">
-  <img src="renders/g2_idle.png" width="30%" alt="idle">
-  <img src="renders/g2_walk.png" width="30%" alt="walk">
-  <img src="renders/g2_photo.png" width="30%" alt="photo">
-</p>
-
-<p align="center">
   <img src="demo/demo.gif" width="90%" alt="Demo">
 </p>
 
