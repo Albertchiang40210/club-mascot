@@ -1,0 +1,19 @@
+{
+  "mcpServers": {
+    "blender": { "command": "uvx", "args": ["mcp-for-blender"] },
+    "trellis": {
+      "command": "python3",
+      "args": ["tools/trellis_mcp.py"],
+      "env": { "HF_TOKEN": "${HF_TOKEN:-}" }
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@latest"]
+    },
+    "gemini-image": {
+      "command": "python3",
+      "args": ["tools/gemini_image_mcp.py"],
+      "env": { "GEMINI_API_KEY": "${GEMINI_API_KEY:-}" }
+    }
+  }
+}

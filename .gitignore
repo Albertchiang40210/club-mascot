@@ -22,3 +22,7 @@ desktop.ini
 # 編輯器
 .vscode/
 .idea/
+
+# Python
+__pycache__/
+*.pyc

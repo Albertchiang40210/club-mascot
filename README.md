@@ -19,6 +19,27 @@ npm run dev      # 開發
 npm run build    # 打包到 game/dist/
 ```
 
+## Mac 使用說明
+
+遊戲、GLB、Python 工具跨平台通用，Mac 只要處理啟動與 MCP 設定：
+
+```bash
+brew install node uv            # Blender 另外到官網安裝
+git clone <repo> && cd club-mascot
+./start-game.sh                 # 或 cd game && npm install && npm run dev
+```
+
+MCP（選用，要讓 Claude Code 操作 Blender／TRELLIS／Gemini／Playwright 才需要）：
+
+```bash
+cp .mcp.example.mac.json .mcp.json        # Windows 用 .mcp.example.windows.json
+pip3 install mcp gradio_client google-genai
+echo 'export HF_TOKEN=你的token' >> ~/.zshrc
+echo 'export GEMINI_API_KEY=你的key' >> ~/.zshrc
+```
+
+`.mcp.json` 是各人本機設定，已加進 .gitignore，不會被提交。Blender 外掛 `blender-scripts/blender_mcp_addon.py` 從 Preferences → Add-ons → Install 載入。
+
 ## 玩法
 
 在校園場景裡，60 秒內收集 15 個底片（金色底片 +3）。紅蟲會追著玩家，被撞到扣 1 顆心（共 3 顆），體力歸零或時間到即失敗。
