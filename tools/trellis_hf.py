@@ -12,10 +12,8 @@ from gradio_client import Client, handle_file
 SPACE = "trellis-community/TRELLIS"
 
 
-def main():
-    src, dst = sys.argv[1], sys.argv[2]
-    seed = int(sys.argv[3]) if len(sys.argv) > 3 else 0
-    client = Client(SPACE, token=os.environ.get("HF_TOKEN") or None)
+def generate_glb(src, dst, seed=0):
+    client = Client(SPACE, token=os.environ.get("HF_TOKEN") or None, verbose=False)
     client.predict(api_name="/start_session")
     image = client.predict(handle_file(src), api_name="/preprocess_image")
     _, _, glb = client.predict(
@@ -33,8 +31,9 @@ def main():
     )
     os.makedirs(os.path.dirname(os.path.abspath(dst)), exist_ok=True)
     shutil.copyfile(glb, dst)
-    print("saved", dst, os.path.getsize(dst), "bytes")
+    return os.path.getsize(dst)
 
 
 if __name__ == "__main__":
-    main()
+    size = generate_glb(sys.argv[1], sys.argv[2], int(sys.argv[3]) if len(sys.argv) > 3 else 0)
+    print("saved", sys.argv[2], size, "bytes")
