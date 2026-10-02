@@ -1,6 +1,6 @@
 # 小光 · 社團吉祥物（Three.js 小遊戲）
 
-圖 → 3D → Blender → 遊戲 的最後一站：用 `public/mascot.glb`（綁骨、idle / walk / jump）做的網頁小遊戲。
+圖 → 3D → Blender → 遊戲 的最後一站：用 `public/mascot.glb`（綁骨，5 個動畫：idle / walk / jump / flap / photo）做的網頁小遊戲。
 
 ## 執行
 

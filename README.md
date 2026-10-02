@@ -38,7 +38,7 @@ npm run build    # 打包到 game/dist/
 1. 概念圖：正面、側面、背面。
 2. 圖生 3D：以正面圖輸入 [TRELLIS](https://huggingface.co/spaces/trellis-community/TRELLIS)，取得原始模型。
 3. Blender 整理（透過 Blender MCP 操作 Blender 5.2）：高 1.0 m、原點在腳底中央、約 1 萬面。
-4. 綁骨與動畫：7 根骨頭、手動分配權重，製作 idle、walk、jump 等動畫。
+4. 綁骨與動畫：7 根骨頭、手動分配權重，製作 idle、walk、jump、flap（二段跳）、photo（拍照）5 個動畫。
 5. 遊戲：匯出 GLB，以 Three.js 實作，並用 Playwright 自動試玩驗證。
 
 各步驟的交付規格與驗收狀態見 [PIPELINE.md](PIPELINE.md)，過程中遇到的問題與解法見 [handoff-log.md](handoff-log.md)。
@@ -57,7 +57,7 @@ npm run build    # 打包到 game/dist/
 ## 為什麼無法完全靠 MCP 完成
 
 - **圖生 3D 沒有可用的免費 MCP**：Blender MCP 內建的 Rodin 免費額度用完（API_INSUFFICIENT_FUNDS），Tripo 免費帳號不能匯出，重試還會計費。最後的 TRELLIS 是 Hugging Face 網頁，只能手動上傳、手動下載 GLB。**解決方式**：不重試付費 API，改用 TRELLIS 網頁版（只傳單張正面圖），產出的 GLB 再交給 Blender MCP。
-- **自動綁骨失敗**：Blender 自動權重（Bone Heat）對非人形的貓頭鷹找不到解，Mixamo 也不適用，**解決方式**：用 Blender MCP 手動建 7 根骨頭、依位置漸層分配權重，自製 idle／walk／jump 等動畫。
+- **自動綁骨失敗**：Blender 自動權重（Bone Heat）對非人形的貓頭鷹找不到解，Mixamo 也不適用，**解決方式**：用 Blender MCP 手動建 7 根骨頭、依位置漸層分配權重，自製 idle／walk／jump／flap／photo 5 個動畫。
 - **需要人工判斷與驗收**：挑選概念圖、確認背面品質、決定要不要重畫貼圖，**解決方式**：每個階段都渲染截圖並對照 PIPELINE.md 驗收，背面問題列為已知問題並保留備份。
 - **遊戲端沒有對應的 MCP**：Three.js 遊戲是 Claude Code 直接寫程式，再以 Playwright 試玩，**解決方式**：以 GLB 當共通格式，由 Claude Code 寫遊戲、Playwright 自動試玩驗證。
 

@@ -14,7 +14,7 @@
 | 1 | 概念圖 | PNG | 1024x1024、白底、A-pose、正面（另補側面、背面） | `concept/` |
 | 2 | 原始 3D | GLB | 生成工具直接輸出，不修改 | `assets/mascot_raw.glb` |
 | 3 | 清理後 3D | GLB | 高 1.0m、原點在腳底中央、面數 < 20k、無破面 | `assets/mascot_clean.glb` |
-| 4 | 綁骨模型 | FBX/GLB | 動畫片段名稱：idle / walk / jump | `assets/mascot_rigged.glb` |
+| 4 | 綁骨模型 | FBX/GLB | 動畫片段名稱：idle / walk / jump / flap（二段跳）/ photo（拍照） | `assets/mascot_rigged.glb` |
 | 5 | 遊戲用 | GLB | Y-up、貼圖內嵌、< 10MB | `assets/mascot.glb` |
 
 ## 每一步的驗收
@@ -22,7 +22,7 @@
 - [ ] 1 概念圖：人工挑選，採用與淘汰版本都留下（只留了採用的 `concept/` 正/側/背，沒有淘汰版本）
 - [ ] 2 原始 3D：從正、側、背截圖，確認背面沒有壞掉（`renders/raw_*.png`；背面有凹痕和背帶貼圖，未通過，已知問題）
 - [x] 3 清理後：Blender 渲染正/側/背三張圖，記錄面數與尺寸（`renders/clean_*.png`；10,651 面，高 1.0 m，原點在腳底）
-- [x] 4 綁骨：播放三個動畫各一次，截圖（`renders/anim_*.png`；idle / walk / jump，7 根骨頭）
+- [x] 4 綁骨：播放動畫各一次，截圖（`renders/anim_*.png` 為 idle / walk / jump，flap / photo 見 `renders/g2_*.png`；共 5 個動畫，7 根骨頭）
 - [ ] 5 遊戲：角色站在地面、沒有躺著；手機 5 秒內載入（`game/`；Playwright 試玩通過：站在 y=0、idle/walk/jump 正確切換、無錯誤，截圖 `renders/game_*.png`；本機載入 0.25 s，總大小約 3.7 MB，**手機尚未實測**）
 
 ## 工具
