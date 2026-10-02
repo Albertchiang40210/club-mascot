@@ -50,6 +50,7 @@ npm run build    # 打包到 game/dist/
 | `concept/` | 概念圖（正／側／背） |
 | `assets/` | 各階段 GLB：`mascot_raw`（原始）→ `mascot_clean`（整理）→ `mascot_rigged`（綁骨）→ `mascot`（遊戲用） |
 | `blender-scripts/` | Blender MCP 外掛 |
+| `tools/` | 免費圖生 3D 腳本（呼叫 Hugging Face 的 TRELLIS Space） |
 | `game/` | Three.js + Vite 小遊戲 |
 | `renders/` | 各階段驗收截圖 |
 | `demo/` | Demo 影片與 GIF |
@@ -57,7 +58,7 @@ npm run build    # 打包到 game/dist/
 ## 為什麼無法完全靠 MCP 完成
 
 - **概念圖與圖生 3D 都是網頁手動操作**：概念圖用 Gemini 網頁版生成，沒有透過 MCP 或 API。
-- **圖生 3D 沒有可用的免費 MCP**：Blender MCP 內建的 Rodin 免費額度用完（API_INSUFFICIENT_FUNDS），Tripo 免費帳號不能匯出，重試還會計費。免費版網站也無法同時上傳正、側、背三張圖，最後只能用單張正面圖。最後的 TRELLIS 是 Hugging Face 網頁，只能手動上傳、手動下載 GLB。**解決方式**：不重試付費 API，改用 TRELLIS 網頁版（只傳單張正面圖），產出的 GLB 再交給 Blender MCP。
+- **圖生 3D 沒有可用的免費 MCP**：Blender MCP 內建的 Rodin 免費額度用完（API_INSUFFICIENT_FUNDS），Tripo 免費帳號不能匯出，重試還會計費。免費版網站也無法同時上傳正、側、背三張圖，最後只能用單張正面圖。本專案實際是在 TRELLIS 的 Hugging Face 網頁手動上傳、手動下載 GLB。**解決方式**：不重試付費 API，改用 TRELLIS（只傳單張正面圖），產出的 GLB 再交給 Blender MCP。**事後驗證：這一步也能免費自動化**，不需要顯卡（本專案用的是 AMD 顯卡，無法本機跑 CUDA 模型）。[tools/trellis_hf.py](tools/trellis_hf.py) 用 `gradio_client` 呼叫 Hugging Face 上的 TRELLIS Space，輸入圖片、輸出 GLB：`pip install gradio_client`，到 Hugging Face 建一個 Read token 並設成環境變數 `HF_TOKEN`（不設的話匿名 ZeroGPU 額度很快用完），再執行 `python tools/trellis_hf.py concept/front.png assets/out.glb`。實測產出 9,166 面、帶貼圖的貓頭鷹（`assets/mascot_trellis_test.glb`，僅供驗證，未取代遊戲用模型）。限制：要排隊、有每日額度，Space 的 API 也可能改版。
 - **自動綁骨失敗**：Blender 自動權重（Bone Heat）對非人形的貓頭鷹找不到解，Mixamo 也不適用，**解決方式**：用 Blender MCP 手動建 7 根骨頭、依位置漸層分配權重，自製 idle／walk／jump／flap／photo 5 個動畫。
 - **需要人工判斷與驗收**：挑選概念圖、確認背面品質、決定要不要重畫貼圖，**解決方式**：每個階段都渲染截圖並對照 PIPELINE.md 驗收，背面問題列為已知問題並保留備份。
 - **遊戲端沒有對應的 MCP**：Three.js 遊戲是 Claude Code 直接寫程式，再以 Playwright 試玩，**解決方式**：以 GLB 當共通格式，由 Claude Code 寫遊戲、Playwright 自動試玩驗證。
