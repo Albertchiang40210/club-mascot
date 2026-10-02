@@ -59,6 +59,12 @@ npm run build    # 打包到 game/dist/
 - 模型背面由 AI 推測生成，有些微凹痕與貼圖瑕疵（備份：`assets/mascot_clean_v1_backpatch.glb`）。
 - 手機載入速度尚未實測。
 
+## 授權說明
+
+- 圖生 3D 使用 Hugging Face 上的 TRELLIS Space，底層為 [microsoft/TRELLIS](https://github.com/microsoft/TRELLIS)，其程式與模型採 MIT License（允許商用）。該專案內含的部分第三方元件（如 diffoctreerast、Flexicubes）另有各自授權。
+- 此 Space 頁面本身未查到獨立的授權標示；若要商用或上架，請再自行確認。
+- 本專案的概念圖與 Blender 整理後的模型為本專案自製，原始模型來自上述 AI 生成。
+
 ## 使用技術
 
 Three.js、Vite、Blender 5.2、Blender MCP、Claude Code、Playwright
