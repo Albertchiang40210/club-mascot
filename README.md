@@ -13,8 +13,6 @@
   <img src="demo/demo.gif" width="90%" alt="Demo">
 </p>
 
-<sub>高畫質完整影片：[demo/demo.mp4](demo/demo.mp4)</sub>
-
 ## 流程
 
 ```text
