@@ -18,8 +18,8 @@ renderer.shadowMap.enabled = true;
 document.body.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0xf3d9b1);
-scene.fog = new THREE.Fog(0xf3d9b1, 25, 60);
+scene.background = new THREE.Color(0xbfe0f2);
+scene.fog = new THREE.Fog(0xbfe0f2, 35, 90);
 const camera = new THREE.PerspectiveCamera(55, innerWidth / innerHeight, 0.1, 200);
 
 scene.add(new THREE.HemisphereLight(0xfff1dd, 0x6b4a2f, 1.1));
@@ -30,26 +30,90 @@ sun.shadow.mapSize.set(1024, 1024);
 Object.assign(sun.shadow.camera, { left: -20, right: 20, top: 20, bottom: -20, near: 1, far: 50 });
 scene.add(sun);
 
-const ground = new THREE.Mesh(
-  new THREE.CircleGeometry(ARENA + 4, 64),
-  new THREE.MeshStandardMaterial({ color: 0x8fbf6a, roughness: 1 })
-);
+// ---------- campus ----------
+const mat = (color, o = {}) => new THREE.MeshStandardMaterial({ color, roughness: 0.9, ...o });
+function box(w, h, d, m, x, y, z, parent = scene) {
+  const b = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), m);
+  b.position.set(x, y, z); b.castShadow = true; b.receiveShadow = true;
+  parent.add(b); return b;
+}
+
+// 草地與步道
+const ground = new THREE.Mesh(new THREE.CircleGeometry(80, 64), mat(0x8fbf6a, { roughness: 1 }));
 ground.rotation.x = -Math.PI / 2;
 ground.receiveShadow = true;
 scene.add(ground);
-const grid = new THREE.GridHelper((ARENA + 4) * 2, 36, 0x6a9a4a, 0x7fae5c);
-grid.position.y = 0.01;
-scene.add(grid);
+const pathMat = mat(0xd9d2c3);
+const ring = new THREE.Mesh(new THREE.RingGeometry(8, 10.5, 64), pathMat);
+ring.rotation.x = -Math.PI / 2; ring.position.y = 0.02; ring.receiveShadow = true;
+scene.add(ring);
+for (const [w, d] of [[3, 60], [60, 3]]) {
+  const p = new THREE.Mesh(new THREE.PlaneGeometry(w, d), pathMat);
+  p.rotation.x = -Math.PI / 2; p.position.y = 0.03; p.receiveShadow = true;
+  scene.add(p);
+}
 
-const trunkMat = new THREE.MeshStandardMaterial({ color: 0x6b4a2f });
-const leafMat = new THREE.MeshStandardMaterial({ color: 0x4f8a3a });
-for (let i = 0; i < 14; i++) {
-  const a = (i / 14) * Math.PI * 2, r = ARENA + 1.5 + (i % 3);
+// 教學大樓（正面朝向場地中心）
+const wallColors = [0xe8dcc8, 0xd9c7a8, 0xcfd8dc];
+const glassMat = mat(0x8fb8d8, { roughness: 0.3, metalness: 0.2 });
+function building(w, h, d, wall, angleDeg, dist) {
+  const g = new THREE.Group();
+  box(w, h, d, mat(wall), 0, h / 2, 0, g);
+  box(w + 0.8, 0.5, d + 0.8, mat(0x8a5a44), 0, h + 0.25, 0, g);
+  const cols = Math.floor(w / 3), rows = Math.floor(h / 3);
+  for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
+    const win = new THREE.Mesh(new THREE.PlaneGeometry(1.6, 1.5), glassMat);
+    win.position.set((c - (cols - 1) / 2) * 3, 2 + r * 3, d / 2 + 0.02);
+    g.add(win);
+  }
+  box(2.4, 2.6, 0.4, mat(0x6b4a2f), 0, 1.3, d / 2 + 0.05, g);
+  const a = (angleDeg * Math.PI) / 180;
+  g.position.set(Math.cos(a) * dist, 0, Math.sin(a) * dist);
+  g.lookAt(0, 0, 0);
+  scene.add(g);
+}
+building(18, 9, 8, wallColors[0], -90, 34);
+building(14, 6, 7, wallColors[1], -150, 32);
+building(14, 12, 7, wallColors[2], -30, 33);
+building(12, 6, 6, wallColors[1], 40, 34);
+
+// 旗桿
+const pole = box(0.15, 8, 0.15, mat(0xcccccc), -15, 4, -12);
+const flag = new THREE.Mesh(new THREE.PlaneGeometry(2, 1.2), new THREE.MeshStandardMaterial({ color: 0xd8372b, side: THREE.DoubleSide }));
+flag.position.set(-14, 7.2, -12); flag.castShadow = true;
+scene.add(flag);
+
+// 長椅與路燈（沿環形步道）
+const woodMat = mat(0x8a5a44), metalMat = mat(0x555a60, { metalness: 0.5 });
+for (let i = 0; i < 4; i++) {
+  const a = (i / 4) * Math.PI * 2 + Math.PI / 4;
+  const g = new THREE.Group();
+  box(2, 0.15, 0.7, woodMat, 0, 0.5, 0, g);
+  box(2, 0.6, 0.12, woodMat, 0, 0.9, -0.3, g);
+  box(0.12, 0.5, 0.6, metalMat, -0.85, 0.25, 0, g);
+  box(0.12, 0.5, 0.6, metalMat, 0.85, 0.25, 0, g);
+  g.position.set(Math.cos(a) * 11.2, 0, Math.sin(a) * 11.2);
+  g.rotation.y = -a - Math.PI / 2;
+  scene.add(g);
+  const lamp = new THREE.Group();
+  box(0.12, 3.6, 0.12, metalMat, 0, 1.8, 0, lamp);
+  const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.28, 12, 12), new THREE.MeshStandardMaterial({ color: 0xfff1b0, emissive: 0xffd86b, emissiveIntensity: 0.6 }));
+  bulb.position.y = 3.7; lamp.add(bulb);
+  const la = a + Math.PI / 4;
+  lamp.position.set(Math.cos(la) * 11.2, 0, Math.sin(la) * 11.2);
+  scene.add(lamp);
+}
+
+// 校園樹（圓形樹冠）
+const trunkMat = mat(0x6b4a2f);
+const leafMats = [mat(0x5a9a3f), mat(0x4f8a3a), mat(0x6aa84a)];
+for (let i = 0; i < 16; i++) {
+  const a = (i / 16) * Math.PI * 2, r = ARENA + 2 + (i % 3) * 1.5;
   const t = new THREE.Group();
-  const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.35, 2), trunkMat);
-  trunk.position.y = 1; trunk.castShadow = true;
-  const leaf = new THREE.Mesh(new THREE.ConeGeometry(1.4, 3.2, 10), leafMat);
-  leaf.position.y = 3.4; leaf.castShadow = true;
+  const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.35, 2.4), trunkMat);
+  trunk.position.y = 1.2; trunk.castShadow = true;
+  const leaf = new THREE.Mesh(new THREE.IcosahedronGeometry(1.9, 1), leafMats[i % 3]);
+  leaf.position.y = 3.6; leaf.castShadow = true;
   t.add(trunk, leaf);
   t.position.set(Math.cos(a) * r, 0, Math.sin(a) * r);
   scene.add(t);
