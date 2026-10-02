@@ -35,7 +35,7 @@ npm run build    # 打包到 game/dist/
 
 ## 製作流程
 
-1. 概念圖：正面、側面、背面。
+1. 概念圖：以 Gemini 生成正面、側面、背面。
 2. 圖生 3D：以正面圖輸入 [TRELLIS](https://huggingface.co/spaces/trellis-community/TRELLIS)，取得原始模型。
 3. Blender 整理（透過 Blender MCP 操作 Blender 5.2）：高 1.0 m、原點在腳底中央、約 1 萬面。
 4. 綁骨與動畫：7 根骨頭、手動分配權重，製作 idle、walk、jump、flap（二段跳）、photo（拍照）5 個動畫。

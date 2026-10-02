@@ -29,7 +29,7 @@
 
 | 步驟 | 工具 | 備註 |
 |---|---|---|
-| 概念圖 | （待定：Gemini / 其他生圖） | |
+| 概念圖 | Gemini | |
 | 圖生3D | blender-mcp 內建 Hunyuan3D / Rodin，或 Tripo / Meshy | 本機為 AMD 顯卡，不跑本地模型 |
 | Blender 清理 | blender-mcp（Claude Code 呼叫） | Blender 5.2 |
 | 綁骨動畫 | Mixamo / Meshy / Tripo | 非人形可能失敗 |
