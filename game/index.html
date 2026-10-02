@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>小光 · 攝影社吉祥物</title>
+  <style>
+    html, body { margin: 0; height: 100%; overflow: hidden; background: #2b1a10; font-family: "Microsoft JhengHei", sans-serif; touch-action: none; }
+    canvas { display: block; }
+    #hud { position: fixed; top: 12px; left: 12px; right: 12px; display: flex; justify-content: space-between; color: #fff; font-size: 20px; text-shadow: 0 1px 3px #000; pointer-events: none; }
+    #hearts { color: #ff5d5d; letter-spacing: 2px; }
+    #hint { position: fixed; bottom: 12px; left: 0; right: 0; text-align: center; color: #3b2a1c; font-size: 14px; pointer-events: none; }
+    #cd { position: fixed; top: 48px; left: 12px; width: 120px; height: 6px; background: rgba(0,0,0,.25); border-radius: 3px; overflow: hidden; pointer-events: none; }
+    #cdfill { height: 100%; width: 100%; background: #ffd23f; }
+    #toast { position: fixed; top: 22%; left: 0; right: 0; text-align: center; color: #fff; font-size: 28px; font-weight: bold; text-shadow: 0 2px 6px #000; opacity: 0; transition: opacity .25s; pointer-events: none; }
+    #flash { position: fixed; inset: 0; background: #fff; opacity: 0; pointer-events: none; }
+    #end { position: fixed; inset: 0; display: none; flex-direction: column; align-items: center; justify-content: center; background: rgba(43,26,16,.78); color: #f6e9d7; }
+    #endTitle { font-size: 44px; font-weight: bold; margin-bottom: 12px; }
+    #endInfo { font-size: 18px; }
+    #loading { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; color: #f6e9d7; background: #2b1a10; font-size: 20px; }
+    .pad { position: fixed; bottom: 36px; width: 84px; height: 84px; border-radius: 50%; background: rgba(255,255,255,.22); border: 2px solid rgba(255,255,255,.5); color: #fff; display: none; align-items: center; justify-content: center; font-size: 15px; user-select: none; }
+    #jumpBtn { right: 24px; }
+    #photoBtn { right: 120px; bottom: 60px; }
+    #stick { left: 24px; }
+    @media (pointer: coarse) { .pad { display: flex; } #hint { display: none; } }
+  </style>
+</head>
+<body>
+  <div id="loading">載入小光中…</div>
+  <div id="hud">
+    <div>底片 <span id="score">0</span> / <span id="goal">0</span></div>
+    <div id="hearts">♥♥♥</div>
+    <div>⏱ <span id="time">60</span></div>
+  </div>
+  <div id="cd"><div id="cdfill"></div></div>
+  <div id="toast"></div>
+  <div id="flash"></div>
+  <div id="hint">WASD 移動 · Shift 衝刺 · 空白鍵 跳（空中再按＝拍翅膀二段跳） · F 拍照（閃光擊退紅蟲）</div>
+  <div id="stick" class="pad">移動</div>
+  <div id="jumpBtn" class="pad">跳</div>
+  <div id="photoBtn" class="pad">拍</div>
+  <div id="end"><div id="endTitle"></div><div id="endInfo"></div></div>
+  <script type="module" src="/main.js"></script>
+</body>
+</html>

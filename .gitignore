@@ -1,0 +1,24 @@
+# Blender
+*.blend1
+*.blend2
+*.blend@
+
+# Node
+node_modules/
+dist/
+
+# 本機專用設定（含個人電腦路徑）
+.mcp.json
+.claude/
+
+# Windows
+*.lnk
+Thumbs.db
+desktop.ini
+
+# 簡報（不需公開，要公開可刪掉這行）
+*.pptx
+
+# 編輯器
+.vscode/
+.idea/
